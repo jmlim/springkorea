@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.springkorea.persistence.mapper.UserMapper">
+	<resultMap type="User" id="UserResultMap">
+		<result property="uid" column="UID" />
+		<result property="name" column="NAME" />
+		<result property="email" column="EMAIL" />
+		<result property="password" column="PASSWORD" />
+	</resultMap>
+
+	<select id="getUsers" resultMap="UserResultMap">
+		SELECT * FROM USERS
+	</select>
+
+	<insert id="createUser" parameterType="org.springkorea.model.User">
+		INSERT INTO
+		USERS(UID,NAME,EMAIL,PASSWORD)
+		values(#{uid},#{name},#{email},#{password})
+	</insert>
+	<!-- private String uid; private String name; private String email; private 
+		String password; -->
+	<update id="updateUser" parameterType="org.springkorea.model.User">
+		update USERS set
+		NAME =
+		#{name},
+		EMAIL = #{email},
+		PASSWORD = #{password}
+		where UID = #{uid}
+	</update>
+
+	<delete id="deleteUser" parameterType="org.springkorea.model.User">
+		delete USERS where UID =
+		#{uid}
+	</delete>
+</mapper>
