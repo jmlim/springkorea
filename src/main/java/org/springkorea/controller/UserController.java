@@ -24,6 +24,11 @@ public class UserController {
 		return new User();
 	}
 
+	@RequestMapping(value = { "/signup" }, method = RequestMethod.GET)
+	public String signupPage() {
+		return "/user/signup";
+	}
+
 	@RequestMapping(value = "/processSubmit", method = RequestMethod.POST)
 	public String processSubmit(@ModelAttribute User newUser) {
 		userManager.createUser(newUser);
