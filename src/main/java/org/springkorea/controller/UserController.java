@@ -32,6 +32,6 @@ public class UserController {
 	@RequestMapping(value = "/processSubmit", method = RequestMethod.POST)
 	public String processSubmit(@ModelAttribute User newUser) {
 		userManager.createUser(newUser);
-		return "redirect:/sign/signin";
+		return "redirect:/user/signin";
 	}
 }
