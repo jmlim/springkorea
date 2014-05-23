@@ -36,10 +36,20 @@
 						<li><a href="#">One more separated link</a></li>
 					</ul></li> -->
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="<c:url value="/sign/signin"/>">로그인</a></li>
-				<li><a href="<c:url value="/sign/signup" />">등록</a></li>
-			</ul>
+			<c:choose>
+				<c:when test="${empty sessionScope.userSession}">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="<c:url value="/user/signin"/>">로그인</a></li>
+						<li><a href="<c:url value="/user/signup" />">등록</a></li>
+					</ul>
+				</c:when>
+				<c:otherwise>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="<c:url value="/user/processLogout"/>">로그아웃</a></li>
+						<li><a href="<c:url value="/user/signup" />">정보수정</a></li>
+					</ul>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>

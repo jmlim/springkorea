@@ -13,6 +13,7 @@
 		<mybatis.spring.version>1.2.2</mybatis.spring.version>
 		<mybatis.generator.core.version>1.3.2</mybatis.generator.core.version>
 		<derbyclient.version>10.10.2.0</derbyclient.version>
+		<log4j.version>1.2.16</log4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -82,7 +83,12 @@
 			<artifactId>derbyclient</artifactId>
 			<version>${derbyclient.version}</version>
 		</dependency>
-
+		<!-- log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>

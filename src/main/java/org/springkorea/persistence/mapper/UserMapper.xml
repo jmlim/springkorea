@@ -12,7 +12,15 @@
 	</resultMap>
 
 	<select id="getUsers" resultMap="UserResultMap">
-		SELECT * FROM USERS
+		select * from USERS
+	</select>
+
+	<select id="getUser" parameterType="org.springkorea.model.User"
+		resultMap="UserResultMap">
+		select * from USERS
+		where UID = #{uid}
+		and password =
+		#{password}
 	</select>
 
 	<insert id="createUser" parameterType="org.springkorea.model.User">

@@ -17,11 +17,12 @@ public class UserManagerImpl implements UserManager {
 	private UserMapper userMapper;
 
 	/**
-	 * @see org.springkorea.service.UserManager#getUser(java.lang.String)
+	 * @see org.springkorea.service.UserManager#getUserByIdAndPassword(java.lang.String,
+	 *      java.lang.String)
 	 */
 	@Override
-	public User getUser(String userId) {
-		return userMapper.getUser(userId);
+	public User getUserByIdAndPassword(String userId, String password) {
+		return userMapper.getUser(new User(userId, password));
 	}
 
 	/**

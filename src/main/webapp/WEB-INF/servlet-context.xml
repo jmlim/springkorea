@@ -16,9 +16,9 @@
 		"/"를 요청하면 welcome 뷰를 랜더링하도록 설정했다. 실제 뷰 템플릿은 /WEB-INF/views 디렉토리의 .jsp가 랜더링 
 		된다. -->
 	<annotation-driven />
-	
-	<mvc:view-controller path="/" view-name="user/signup" />
-	
+
+	<mvc:view-controller path="/" view-name="index" />
+
 	<context:component-scan base-package="org.springkorea.controller" />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 

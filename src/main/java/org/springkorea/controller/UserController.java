@@ -1,5 +1,7 @@
 package org.springkorea.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,9 +36,29 @@ public class UserController {
 		return "/user/signup";
 	}
 
-	@RequestMapping(value = "/processSubmit", method = RequestMethod.POST)
-	public String processSubmit(@ModelAttribute User newUser) {
-		userManager.createUser(newUser);
+	@RequestMapping(value = "/processLogin", method = RequestMethod.POST)
+	public String processLogin(@ModelAttribute User user, HttpSession session) {
+
+		User loginUser = userManager.getUserByIdAndPassword(user.getUid(),
+				user.getPassword());
+
+		if (loginUser != null) {
+			session.setAttribute("userSession", loginUser);
+			return "redirect:/index";
+		}
+
+		return "redirect:/user/signin";
+	}
+
+	@RequestMapping(value = "/processLogout", method = RequestMethod.GET)
+	public String processLogout(HttpSession session) {
+		session.setAttribute("userSession", null);
+		return "redirect:/user/signin";
+	}
+
+	@RequestMapping(value = "/processSignupSubmit", method = RequestMethod.POST)
+	public String processSignupSubmit(@ModelAttribute User user) {
+		userManager.createUser(user);
 		return "redirect:/user/signin";
 	}
 }
