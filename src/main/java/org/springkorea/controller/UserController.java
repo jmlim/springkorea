@@ -1,14 +1,23 @@
 package org.springkorea.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springkorea.model.User;
 import org.springkorea.service.UserManager;
+import org.springkorea.utils.MessageUtils;
 
 /**
  * @author Administrator
@@ -57,8 +66,20 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/processSignupSubmit", method = RequestMethod.POST)
-	public String processSignupSubmit(@ModelAttribute User user) {
-		userManager.createUser(user);
-		return "redirect:/user/signin";
+	@ResponseBody
+	public Map<String, Object> processSignupSubmit(
+			@Valid @ModelAttribute User user, BindingResult result) {
+		Map<String, Object> message = new HashMap<>();
+		if (result.hasErrors()) {
+			message.put("hasErrors", true);
+			for (FieldError error : result.getFieldErrors()) {
+				message.put(error.getField(), MessageUtils.getMessage(error));
+			}
+			return message;
+		}
+
+		User createdUser = userManager.createUser(user);
+		message.put("success", createdUser);
+		return message;
 	}
 }

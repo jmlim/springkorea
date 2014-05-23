@@ -2,6 +2,11 @@ package org.springkorea.model;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * @author Administrator
  * 
@@ -10,19 +15,19 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 6582137205440661975L;
 
-	/*@NotBlank
-	@Size(max = 15)*/
+	@NotBlank
+	@Size(max = 15)
 	private String uid;
 
-	/*@NotBlank
-	@Size(max = 50)*/
+	@NotBlank
+	@Size(max = 50)
 	private String name;
 
-	/*@Email*/
+	@Email
 	private String email;
 
-	/*@NotBlank
-	@Size(max = 15)*/
+	@NotBlank
+	@Size(max = 15)
 	private String password;
 
 	public User() {
