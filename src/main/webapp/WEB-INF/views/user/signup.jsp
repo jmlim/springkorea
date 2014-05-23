@@ -8,7 +8,7 @@
 <body>
 	<jsp:include page="../fragments/bodyHeader.jsp" />
 	<div class="signup">
-		<c:url value="/user/processSubmit" var="targetUrl" />
+		<c:url value="/user/processSignupSubmit" var="targetUrl" />
 		<form action="${targetUrl}" method="post" class="form-signup">
 			<label for="user_id">UserId: </label>
 			<input name="uid" id="user_id" required="required"

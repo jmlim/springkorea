@@ -10,12 +10,19 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 6582137205440661975L;
 
+	/*@NotBlank
+	@Size(max = 15)*/
 	private String uid;
 
+	/*@NotBlank
+	@Size(max = 50)*/
 	private String name;
 
+	/*@Email*/
 	private String email;
 
+	/*@NotBlank
+	@Size(max = 15)*/
 	private String password;
 
 	public User() {

@@ -29,8 +29,9 @@ public class UserManagerImpl implements UserManager {
 	 * @see org.springkorea.service.UserManager#createUser(org.springkorea.model.User)
 	 */
 	@Override
-	public void createUser(User user) {
+	public User createUser(User user) {
 		userMapper.createUser(user);
+		return userMapper.getUser(user);
 	}
 
 	/**

@@ -7,7 +7,7 @@ import org.springkorea.model.User;
 public interface UserManager {
 	public User getUserByIdAndPassword(String userId, String password);
 
-	public void createUser(User user);
+	public User createUser(User user);
 
 	public void updateUser(User user);
 
