@@ -24,6 +24,11 @@ public class UserController {
 		return new User();
 	}
 
+	@RequestMapping(value = { "/signin" }, method = RequestMethod.GET)
+	public String signinPage() {
+		return "/user/signin";
+	}
+
 	@RequestMapping(value = { "/signup" }, method = RequestMethod.GET)
 	public String signupPage() {
 		return "/user/signup";
