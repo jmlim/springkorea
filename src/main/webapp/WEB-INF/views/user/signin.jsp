@@ -8,7 +8,21 @@
 <body>
 	<jsp:include page="../fragments/bodyHeader.jsp" />
 
-	<div class="signin">
+<div class="container">
+	<div class="login-container">
+            <div id="output"></div>
+            <div class="avatar"></div>
+            <div class="form-box">
+                <form action="<c:url value="/user/processLogin" />" method="post">
+                    <input id="uid" name="uid" placeholder="username">
+                    <input name="password" type="password"  placeholder="password">
+                    <button class="btn btn-info btn-block login" type="submit">로그인</button>
+                </form>
+            </div>
+        </div>
+        
+</div>
+	<%-- <div class="signin">
 		<form action="<c:url value="/user/processLogin" />" method="post"
 			class="form-signin">
 			<h2 class="form-signin-heading">로그인 해주세요</h2>
@@ -21,6 +35,6 @@
 			<button class="btn btn-lg btn-primary btn-block" type="submit"
 				value="Authenticate">로그인</button>
 		</form>
-	</div>
+	</div> --%>
 </body>
 </html>
