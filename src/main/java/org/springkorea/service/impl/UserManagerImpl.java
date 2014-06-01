@@ -43,11 +43,11 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	/**
-	 * @see org.springkorea.service.UserManager#deleteUser(org.springkorea.model.User)
+	 * @see org.springkorea.service.UserManager#deleteUser(java.lang.String)
 	 */
 	@Override
-	public void deleteUser(User user) {
-		userMapper.deleteUser(user);
+	public void deleteUser(String uid) {
+		userMapper.deleteUser(uid);
 	}
 
 	/**

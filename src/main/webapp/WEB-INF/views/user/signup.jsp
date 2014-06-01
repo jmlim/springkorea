@@ -1,75 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<html>
-<head>
-<jsp:include page="../fragments/headTag.jsp" />
-</head>
-<body>
-	<jsp:include page="../fragments/bodyHeader.jsp" />
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$("#form-signup-submit").click(function() {
-				var parameters = $("#form-signup").serialize();
-				$.ajax({
-					type : "POST",
-					data : parameters,
-					url : "processSignupSubmit",
-					async : false,
-					dataType : "json",
-					error : function(data) {
-					},
-					success : function(data) {
-						if (data.hasErrors) {
-							for ( var prop in data) {
-								var errorElem = $("#" + prop + ".error-message");
-								errorElem.text("");
-								errorElem.text(data[prop]);
-							}
-							return;
-						}
-						window.location.href = "signin";
-					}
-				});
-			});
-		});
-	</script>
-	<%-- <div class="signup">
-		<c:url value="/user/processSignupSubmit" var="targetUrl" />
-		<form id="form-signup" action="${targetUrl}" method="post" class="form-signup">
-			<label for="user_id">UserId: </label>
-			<input name="uid" id="user_id" required="required"
-				autofocus="autofocus" class="form-control" placeholder="Your id..." />
-			<span id="uid" class="error-message"></span>
-			<br />
-
-			<label for="email">Email: </label>
-			<input name="email" id="email" required="required"
-				autofocus="autofocus" class="form-control"
-				placeholder="Your email..." />
-			<span id="email" class="error-message"></span>
-			<br />
-
-			<label for="name">Name: </label>
-			<input name="name" id="name" required="required"
-				class="form-control" placeholder="Your name..." />
-			<span id="name" class="error-message"></span>
-			<br />
-
-			<label for="password">Password: </label>
-			<input type="password" name="password" id="password" required="required"
-				class="form-control" placeholder="Your password..." />
-			<span id="password" class="error-message"></span>
-			<br />
-
-			<input id="form-signup-submit" type="button"
-				class="btn btn-lg btn-primary btn-block signup-margin-top"
-				value="Submit" />
-		</form>
-	</div>
- --%>
- <c:url value="/user/processSignupSubmit" var="targetUrl" />
-
  <div class="container">    
 	<div id="signupbox" style="margin-top: 50px"
 		class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
@@ -82,7 +12,8 @@
 					<div class="form-group">
 						<label for="uid" class="col-md-3 control-label">User Id</label>
 						<div class="col-md-9">
-							<input type="text" class="form-control" name="uid"
+							<input type="text" class="form-control" name="uid" ng-model="user.uid" 
+								ng-readonly="editMode"
 								placeholder="User id">
 							<span id="uid" class="error-message"></span>
 						</div>
@@ -90,7 +21,7 @@
 					<div class="form-group">
 						<label for="email" class="col-md-3 control-label">Email</label>
 						<div class="col-md-9">
-							<input type="text" class="form-control" name="email"
+							<input type="text" class="form-control" name="email" ng-model="user.email"
 								placeholder="Email Address">
 							<span id="email" class="error-message"></span>
 						</div>
@@ -99,7 +30,7 @@
 						<label for="name" class="col-md-3 control-label">First
 							Name</label>
 						<div class="col-md-9">
-							<input type="text" class="form-control" name="name"
+							<input type="text" class="form-control" name="name" ng-model="user.name"
 								placeholder="First Name">
 							<span id="name" class="error-message"></span>
 						</div>
@@ -107,7 +38,7 @@
 					<div class="form-group">
 						<label for="password" class="col-md-3 control-label">Password</label>
 						<div class="col-md-9">
-							<input type="password" class="form-control" name="passwd"
+							<input type="password" class="form-control" name="password" ng-model="user.password"
 								placeholder="Password">
 							<span id="password" class="error-message"></span>
 						</div>
@@ -116,15 +47,47 @@
 					<div class="form-group">
 						<!-- Button -->
 						<div class="col-md-offset-3 col-md-9">
-							<button id="form-signup-submit" type="button" class="btn btn-info">
+							<button id="form-signup-submit" type="button" class="btn btn-info" 
+								ng-hide="editMode"
+								ng-click="addNewUser(user);">
 								<i class="icon-hand-right"></i> &nbsp Sign Up
 							</button>
+							<button type="button" class="btn btn-primary" ng-show="editMode"
+								ng-click="updateUser(user)">Update</button>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-	</div>
-</body>
-</html>
+	
+	
+	<table class="table table-bordered table-striped"
+		ng-show="users.length > 0">
+		<thead>
+			<tr>
+				<th style="text-align: center; width: 25px;">Id</th>
+				<th style="text-align: center;">Name</th>
+				<th style="text-align: center;">Email</th>
+				<th style="text-align: center;">Edit</th>
+				<th style="text-align: center;">Remove</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="user in users | orderBy:predicate">
+				<td style="text-align: center;">{{user.uid}}</td>
+				<td>{{user.name}}</td>
+				<td>{{user.email}}</td>
+				<td style="text-align: center; width: 20px;">
+					<button class="btn btn-mini btn-success" 
+						ng-click="editUser(user)">Edit</button>
+				</td>
+				<td style="width: 100px; text-align: center;">
+					<button class="btn btn-mini btn-danger"
+						ng-click="removeUser(user.uid)">Remove</button>
+				
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

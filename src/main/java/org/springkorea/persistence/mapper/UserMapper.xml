@@ -39,8 +39,7 @@
 		where UID = #{uid}
 	</update>
 
-	<delete id="deleteUser" parameterType="org.springkorea.model.User">
-		delete USERS where UID =
-		#{uid}
+	<delete id="deleteUser" parameterType="java.lang.String">
+		delete from USERS where UID = #{uid}
 	</delete>
 </mapper>

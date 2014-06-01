@@ -21,3 +21,14 @@
 	src="<c:url value="/resources/jquery/ui/js/jquery-ui-1.10.4.custom.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/bootstrap/bootstrap-3.1.1-dist/js/bootstrap.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/angularjs/angular-1.2.16/angular.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/angularjs/angular-1.2.16/angular-route.js" />"></script>
+	
+<script type="text/javascript"
+	src="<c:url value="/resources/scripts/app.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/scripts/controllers/SignupController.js" />"></script>
+<script type="text/javascript"
+	src="<c:url value="/resources/scripts/controllers/SigninController.js" />"></script>
