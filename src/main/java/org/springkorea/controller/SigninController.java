@@ -21,12 +21,15 @@ public class SigninController {
 	@RequestMapping(value = "/processSignin", method = RequestMethod.POST)
 	public @ResponseBody void processSignin(@RequestBody User user,
 			HttpSession session) throws Exception {
-		User loginUser = userManager.getUserByIdAndPassword(user.getUid(),
-				user.getPassword());
-		if (loginUser != null) {
-			session.setAttribute("userSession", loginUser);
-			return;
+		User loginUser = userManager.getUser(user.getUid());
+
+		if (loginUser.getPassword().equals(user.getPassword())) {
+			if (loginUser != null) {
+				session.setAttribute("userSession", loginUser);
+				return;
+			}
 		}
+
 		throw new Exception("인증실패");
 	}
 

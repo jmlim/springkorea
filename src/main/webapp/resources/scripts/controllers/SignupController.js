@@ -15,15 +15,26 @@ var SignupController = function($scope, $http) {
         });
     };
 
+    $scope.currentUser = function() {
+    	 $http.get('signup/currentUser').success(function(currentUser){
+             $scope.user = currentUser;
+             if($scope.user.uid) {
+            	  $scope.editMode = true;
+             }
+         });
+    };
+
     $scope.addNewUser = function(user) {
         $http.post('signup/addUser/',user).success(function() {
-            $scope.fetchUserList();
+            //$scope.fetchUserList();
+        	 $scope.currentUser();
         });
     };
 
     $scope.updateUser = function(user) {
     	 $http.put('signup/updateUser/',user).success(function() {
-             $scope.fetchUserList();
+             //$scope.fetchUserList();
+    		 $scope.currentUser();
              $scope.editMode = false;
              $scope.user = {};
          });
@@ -31,7 +42,7 @@ var SignupController = function($scope, $http) {
     
     $scope.removeUser = function(uid) {
         $http.delete('signup/removeUser/'+uid).success(function() {
-            $scope.fetchUserList();
+            //$scope.fetchUserList();
         });
     };
 
@@ -40,5 +51,5 @@ var SignupController = function($scope, $http) {
         $scope.editMode = true;
     };
 
-    $scope.fetchUserList();
+    $scope.currentUser();
 };

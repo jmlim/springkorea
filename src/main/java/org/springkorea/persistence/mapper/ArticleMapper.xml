@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.springkorea.persistence.mapper.ArticleMapper">
+	<resultMap id="ArticleResultMap" type="Article">
+		<id property="id" column="ID" />
+		<result property="subject" column="SUBJECT" />
+		<result property="content" column="CONTENT" />
+		<result property="createDate" column="CREATE_DATE" javaType="java.util.Date" />
+		<result property="updateDate" column="UPDATE_DATE" javaType="java.util.Date" />
+		<association property="owner" column="OWNER" javaType="User"
+			jdbcType="VARCHAR" select="org.springkorea.persistence.mapper.UserMapper.getUser" />
+		<association property="writer" column="WRITER" javaType="User"
+			jdbcType="VARCHAR" select="org.springkorea.persistence.mapper.UserMapper.getUser" />
+	</resultMap>
+
+	<select id="getArticles" resultMap="ArticleResultMap"
+		parameterType="org.springkorea.persistence.valueobject.PagingOptions">
+		select * from (
+		select ROW_NUMBER() OVER () AS RNUM,
+		ARTICLES.* from ARTICLES
+		) as
+		SK_ARTICLES
+		where 1=1
+		and RNUM between
+		#{offset} and #{size}
+	</select>
+
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from ARTICLES
+	</select>
+
+	<select id="getArticle" parameterType="org.springkorea.model.Article"
+		resultMap="ArticleResultMap">
+		select * from ARTICLES
+		where ID = #{id}
+	</select>
+
+	<insert id="createArticle" parameterType="org.springkorea.model.Article">
+		<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			select
+			count(*) + 1 from ARTICLES
+		</selectKey>
+		INSERT INTO
+		ARTICLES(ID,OWNER,WRITER,SUBJECT,CONTENT,CREATE_DATE,UPDATE_DATE)
+		values(#{id},#{owner.uid},#{writer.uid},#{subject},#{content},#{createDate},#{updateDate})
+	</insert>
+	<update id="updateArticle" parameterType="org.springkorea.model.Article">
+		update ARTICLES set
+		SUBJECT =
+		#{subject},
+		CONTENT = #{content}
+		where ID = #{id}
+	</update>
+
+	<delete id="deleteArticle" parameterType="java.lang.Integer">
+		delete from ARTICLES
+		where ID = #{id}
+	</delete>
+</mapper>

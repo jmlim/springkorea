@@ -15,4 +15,9 @@ App.config([ '$routeProvider', function($routeProvider) {
 		templateUrl : 'signin/signin',
 		controller : SigninController
 	});
+
+	$routeProvider.when('/articles', {
+		templateUrl : 'article/list',
+		controller : ArticleController
+	});
 } ]);

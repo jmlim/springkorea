@@ -2,6 +2,8 @@ package org.springkorea.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,14 +30,29 @@ public class SignupController {
 		return userManager.getUsers();
 	}
 
+	@RequestMapping(value = "/currentUser")
+	public @ResponseBody User currentUser(HttpSession session) {
+		User currentUser = (User) session.getAttribute("userSession");
+		if (currentUser != null) {
+			return currentUser;
+		}
+
+		return null;
+	}
+
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	public @ResponseBody void addUser(@RequestBody User user) {
 		userManager.createUser(user);
 	}
 
 	@RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
-	public @ResponseBody void updateUser(@RequestBody User user) {
+	public @ResponseBody void updateUser(@RequestBody User user,
+			HttpSession session) {
 		userManager.updateUser(user);
+		User currentUser = (User) session.getAttribute("userSession");
+		if (currentUser.getUid().equals(user.getUid())) {
+			session.setAttribute("userSession", user);
+		}
 	}
 
 	@RequestMapping(value = "/removeUser/{uid}", method = RequestMethod.DELETE)

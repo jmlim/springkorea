@@ -22,6 +22,7 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="#">사용법</a></li>
+				<li><a href="#/articles">게시판</a></li>
 				<!--
 				<li><a href="#">Link</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -45,7 +46,7 @@
 				</c:when>
 				<c:otherwise>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="<c:url value="/user/processLogout"/>">로그아웃</a></li>
+						<li><a href="<c:url value="/signin/processLogout"/>">로그아웃</a></li>
 						<li><a href="#/signup">정보수정</a></li>
 					</ul>
 				</c:otherwise>

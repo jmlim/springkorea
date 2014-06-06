@@ -62,7 +62,7 @@
 	</div>
 	
 	
-	<table class="table table-bordered table-striped"
+	<!-- <table class="table table-bordered table-striped"
 		ng-show="users.length > 0">
 		<thead>
 			<tr>
@@ -89,5 +89,5 @@
 				</td>
 			</tr>
 		</tbody>
-	</table>
+	</table> -->
 </div>

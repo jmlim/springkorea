@@ -19,8 +19,6 @@
 		resultMap="UserResultMap">
 		select * from USERS
 		where UID = #{uid}
-		and password =
-		#{password}
 	</select>
 
 	<insert id="createUser" parameterType="org.springkorea.model.User">

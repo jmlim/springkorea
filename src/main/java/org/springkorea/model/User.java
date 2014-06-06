@@ -34,6 +34,11 @@ public class User implements Serializable {
 		super();
 	}
 
+	public User(String uid) {
+		super();
+		this.uid = uid;
+	}
+
 	public User(String uid, String password) {
 		super();
 		this.uid = uid;
