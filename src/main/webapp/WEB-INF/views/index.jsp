@@ -5,8 +5,8 @@
 <head>
 <jsp:include page="fragments/headTag.jsp" />
 </head>
-<body>
-	<jsp:include page="fragments/bodyHeader.jsp" />
+<body ng-controller="mainController">
+	<%-- <jsp:include page="fragments/bodyHeader.jsp" /> --%>
 	<%-- <div class="index">
 		<c:choose>
 			<c:when test="${not empty sessionScope.userSession}">

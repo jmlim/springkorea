@@ -29,6 +29,8 @@
 <script type="text/javascript"
 	src="<c:url value="/resources/scripts/app.js" />"></script>
 <script type="text/javascript"
+	src="<c:url value="/resources/scripts/factory.js" />"></script>
+<script type="text/javascript"
 	src="<c:url value="/resources/scripts/controllers/SignupController.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/scripts/controllers/SigninController.js" />"></script>

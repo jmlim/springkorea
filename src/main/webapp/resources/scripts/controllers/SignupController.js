@@ -5,7 +5,7 @@
  * 
  * @constructor
  */
-var SignupController = function($scope, $http) {
+var SignupController = function($rootScope, $scope, $http) {
 	$scope.user = {};
 	$scope.editMode = false;
 
@@ -16,12 +16,10 @@ var SignupController = function($scope, $http) {
     };
 
     $scope.currentUser = function() {
-    	 $http.get('signup/currentUser').success(function(currentUser){
-             $scope.user = currentUser;
-             if($scope.user.uid) {
-            	  $scope.editMode = true;
-             }
-         });
+    	$scope.user = $rootScope.userSession;
+		if($scope.user.uid) {
+			$scope.editMode = true;
+		}
     };
 
     $scope.addNewUser = function(user) {
@@ -35,8 +33,6 @@ var SignupController = function($scope, $http) {
     	 $http.put('signup/updateUser/',user).success(function() {
              //$scope.fetchUserList();
     		 $scope.currentUser();
-             $scope.editMode = false;
-             $scope.user = {};
          });
     };
     

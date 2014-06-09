@@ -32,13 +32,13 @@
 		select count(*) from ARTICLES
 	</select>
 
-	<select id="getArticle" parameterType="org.springkorea.model.Article"
+	<select id="getArticle" parameterType="Article"
 		resultMap="ArticleResultMap">
 		select * from ARTICLES
 		where ID = #{id}
 	</select>
 
-	<insert id="createArticle" parameterType="org.springkorea.model.Article">
+	<insert id="createArticle" parameterType="Article">
 		<selectKey keyProperty="id" resultType="int" order="BEFORE">
 			select
 			count(*) + 1 from ARTICLES
@@ -47,7 +47,7 @@
 		ARTICLES(ID,OWNER,WRITER,SUBJECT,CONTENT,CREATE_DATE,UPDATE_DATE)
 		values(#{id},#{owner.uid},#{writer.uid},#{subject},#{content},#{createDate},#{updateDate})
 	</insert>
-	<update id="updateArticle" parameterType="org.springkorea.model.Article">
+	<update id="updateArticle" parameterType="Article">
 		update ARTICLES set
 		SUBJECT =
 		#{subject},

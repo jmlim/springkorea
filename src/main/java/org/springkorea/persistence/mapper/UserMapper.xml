@@ -15,20 +15,20 @@
 		select * from USERS
 	</select>
 
-	<select id="getUser" parameterType="org.springkorea.model.User"
+	<select id="getUser" parameterType="User"
 		resultMap="UserResultMap">
 		select * from USERS
 		where UID = #{uid}
 	</select>
 
-	<insert id="createUser" parameterType="org.springkorea.model.User">
+	<insert id="createUser" parameterType="User">
 		INSERT INTO
 		USERS(UID,NAME,EMAIL,PASSWORD)
 		values(#{uid},#{name},#{email},#{password})
 	</insert>
 	<!-- private String uid; private String name; private String email; private 
 		String password; -->
-	<update id="updateUser" parameterType="org.springkorea.model.User">
+	<update id="updateUser" parameterType="User">
 		update USERS set
 		NAME =
 		#{name},

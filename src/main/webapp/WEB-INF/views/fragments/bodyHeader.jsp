@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!-- header nav bar -->
 <nav class="navbar navbar-inverse" role="navigation">
@@ -37,20 +36,14 @@
 						<li><a href="#">One more separated link</a></li>
 					</ul></li> -->
 			</ul>
-			<c:choose>
-				<c:when test="${empty sessionScope.userSession}">
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#/signin">로그인</a></li>
-						<li><a href="#/signup">등록</a></li>
-					</ul>
-				</c:when>
-				<c:otherwise>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="<c:url value="/signin/processLogout"/>">로그아웃</a></li>
-						<li><a href="#/signup">정보수정</a></li>
-					</ul>
-				</c:otherwise>
-			</c:choose>
+			<ul class="nav navbar-nav navbar-right" ng-hide="userSession.uid != null">
+				<li><a href="#/signin">로그인</a></li>
+				<li><a href="#/signup">등록</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right"  ng-show="userSession.uid != null">
+				<li><a href="#" ng-click="processLogout()">로그아웃</a></li>
+				<li><a href="#/signup">정보수정</a></li>
+			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
