@@ -5,7 +5,7 @@
  * 
  * @constructor
  */
-var SignupController = function($rootScope, $scope, $http) {
+var SignupController = function($rootScope, $scope, $http, $location) {
 	$scope.user = {};
 	$scope.editMode = false;
 
@@ -24,21 +24,24 @@ var SignupController = function($rootScope, $scope, $http) {
 
     $scope.addNewUser = function(user) {
         $http.post('signup/addUser/',user).success(function() {
-            //$scope.fetchUserList();
+            // $scope.fetchUserList();
         	 $scope.currentUser();
+        	 $location.path("signin");
         });
     };
 
     $scope.updateUser = function(user) {
     	 $http.put('signup/updateUser/',user).success(function() {
-             //$scope.fetchUserList();
+             // $scope.fetchUserList();
     		 $scope.currentUser();
+    		 $location.path("articles");
          });
     };
     
     $scope.removeUser = function(uid) {
         $http.delete('signup/removeUser/'+uid).success(function() {
-            //$scope.fetchUserList();
+            // $scope.fetchUserList();
+        	 $location.path("signin");
         });
     };
 

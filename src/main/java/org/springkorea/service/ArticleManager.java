@@ -1,9 +1,9 @@
 package org.springkorea.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springkorea.model.Article;
-import org.springkorea.persistence.valueobject.PagingOptions;
 
 public interface ArticleManager {
 	public Article getArticle(Article article);
@@ -14,7 +14,7 @@ public interface ArticleManager {
 
 	public void deleteArticle(Integer id);
 
-	public List<Article> getArticles(PagingOptions options);
+	public List<Article> getArticles(Map<String, Object> options);
 
 	public Integer getCount();
 }

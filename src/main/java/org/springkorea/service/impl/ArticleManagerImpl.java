@@ -1,13 +1,13 @@
 package org.springkorea.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springkorea.model.Article;
 import org.springkorea.persistence.mapper.ArticleMapper;
-import org.springkorea.persistence.valueobject.PagingOptions;
 import org.springkorea.service.ArticleManager;
 
 @Transactional
@@ -50,10 +50,10 @@ public class ArticleManagerImpl implements ArticleManager {
 	}
 
 	/**
-	 * @see org.springkorea.service.ArticleManager#getArticles(org.springkorea.persistence.valueobject.PagingOptions)
+	 * @see org.springkorea.service.ArticleManager#getArticles(java.util.Map)
 	 */
 	@Override
-	public List<Article> getArticles(PagingOptions options) {
+	public List<Article> getArticles(Map<String, Object> options) {
 		return articleMapper.getArticles(options);
 	}
 

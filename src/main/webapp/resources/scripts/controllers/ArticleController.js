@@ -5,19 +5,20 @@
  * 
  * @constructor
  */
-var ArticleController = function($scope, $http) {
+var ArticleController = function($rootScope, $scope, $http) {
 	$scope.article = {};
 	$scope.editMode = false;
 	$scope.writeMode = false;
+	$scope.contentMode = false;
 
     $scope.fetchArticleList = function() {
-        $http.get('article/jmlim/articlelist.json').success(function(articleList){
+        $http.get('article/'+$rootScope.targetId+'/articlelist.json').success(function(articleList){
             $scope.articles = articleList;
         });
     };
 
     $scope.addNewArticle = function(article) {
-        $http.post('article/jmlim/addArticle/',article).success(function() {
+        $http.post('article/'+$rootScope.targetId+'/addArticle/',article).success(function() {
             $scope.fetchArticleList();
             $scope.writeMode = false;
             $scope.article = {};
@@ -25,7 +26,7 @@ var ArticleController = function($scope, $http) {
     };
 
     $scope.updateArticle = function(article) {
-    	 $http.put('article/jmlim/updateArticle/',article).success(function() {
+    	 $http.put('article/'+$rootScope.targetId+'/updateArticle/',article).success(function() {
              $scope.fetchArticleList();
              $scope.editMode = false;
              $scope.writeMode = false;
@@ -34,7 +35,7 @@ var ArticleController = function($scope, $http) {
     };
     
     $scope.removeArticle = function(id) {
-        $http.delete('article/jmlim/removeArticle/'+id).success(function() {
+        $http.delete('article/'+$rootScope.targetId+'/removeArticle/'+id).success(function() {
             $scope.fetchArticleList();
         });
     };
@@ -48,6 +49,16 @@ var ArticleController = function($scope, $http) {
         $scope.article = article;
         $scope.writeMode = true;
         $scope.editMode = true;
+    };
+
+    $scope.contentArticle = function(article) {
+    	$scope.article = article;
+    	$scope.contentMode = true;
+    };
+    
+    $scope.listArticle = function() {
+    	$scope.article = {};
+    	$scope.contentMode = false;
     };
 
     $scope.fetchArticleList();

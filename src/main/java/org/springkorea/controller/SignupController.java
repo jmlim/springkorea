@@ -64,4 +64,9 @@ public class SignupController {
 	public String getUserPartialPage() {
 		return "user/signup";
 	}
+
+	@RequestMapping("/users")
+	public String getUsersPage() {
+		return "user/users";
+	}
 }

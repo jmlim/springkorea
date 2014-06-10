@@ -3,16 +3,16 @@
 <jsp:include page="../fragments/bodyHeader.jsp" />
 
  <div class="container">    
+	<!-- write -->
 	<div id="articlebox" ng-show="writeMode" style="margin-top: 50px"
-		class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+		class="mainbox">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<div class="panel-title">글쓰기</div>
 			</div>
 			<div class="panel-body">
-				<form id="form-article" action="${targetUrl}" method="post" class="form-horizontal" role="form">
+				<form id="form-article" class="form-horizontal">
 					<div class="form-group">
-						<!-- <label for="id" class="col-md-3 control-label">Article Id</label> -->
 						<div class="col-md-9">
 							<input type="hidden" class="form-control" name="id" ng-model="article.id" 
 								ng-readonly="editMode"
@@ -21,25 +21,26 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="subject" class="col-md-3 control-label">Subject</label>
-						<div class="col-md-9">
+						<label for="subject" class="col-md-2 control-label">Subject</label>
+						<div class="col-md-10">
 							<input type="text" class="form-control" name="subject" ng-model="article.subject"
-								placeholder="Subject ">
+								placeholder="제목">
 							<span id="subject" class="error-message"></span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="content" class="col-md-3 control-label">Content</label>
-						<div class="col-md-9">
-							<input type="text" class="form-control" name="content" ng-model="article.content"
-								placeholder="First Name">
+						<label for="content" class="col-md-2 control-label">Content</label>
+						<div class="col-md-10">
+							<textarea class="form-control" 
+								ng-model="article.content"
+								rows="10" name="content" placeholder="내용"></textarea>
 							<span id="content" class="error-message"></span>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<!-- Button -->
-						<div class="col-md-offset-3 col-md-9">
+						<div class="col-md-offset-2 col-md-10">
 							<button id="form-article-submit" type="button" class="btn btn-info" 
 								ng-hide="editMode"
 								ng-click="addNewArticle(article);">
@@ -54,31 +55,34 @@
 		</div>
 	</div>
 	
-	<div class="articles-wrapper" ng-hide="writeMode" >
+	<!-- list -->
+	<div class="articles-wrapper" ng-hide="writeMode || contentMode">
 		<table class="table table-bordered table-striped"
 			ng-show="articles.length > 0">
 			<thead>
 				<tr>
-					<th style="text-align: center; width: 25px;">Id</th>
-					<th style="text-align: center; width: 25px;">Writer</th>
-					<th style="text-align: center;">Subject</th>
-					<th style="text-align: center;">Content</th>
-					<th style="text-align: center;">Edit</th>
-					<th style="text-align: center;">Remove</th>
+					<th style="text-align: center; width: 70px;">글번호</th>
+					<th style="text-align: center; width: 100px;">작성자</th>
+					<th style="text-align: center;">제목</th>
+					<!-- <th style="text-align: center;">Content</th> -->
+					<th style="text-align: center;" ng-show="userSession.uid != null">수정</th>
+					<th style="text-align: center;" ng-show="userSession.uid != null">삭제</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="article in articles">
 					<td style="text-align: center;">{{article.id}}</td>
-					<td>{{article.writer.name}}</td>
-					<td>{{article.subject}}</td>
-					<td>{{article.content}}</td>
-					<td style="text-align: center; width: 20px;">
+					<td style="text-align: center;  width: 100px;">{{article.writer.name}}</td>
+					<td><a style="cursor:pointer" ng-click="contentArticle(article);">{{article.subject}}</a></td>
+					<!-- <td>{{article.content}}</td> -->
+					<td style="text-align: center; width: 20px;" ng-show="userSession.uid != null">
 						<button class="btn btn-mini btn-success" 
+							ng-show="article.writer.uid == userSession.uid"
 							ng-click="editArticle(article)">Edit</button>
 					</td>
-					<td style="width: 100px; text-align: center;">
-						<button class="btn btn-mini btn-danger"
+					<td style="width: 100px; text-align: center;" ng-show="userSession.uid != null">
+						<button class="btn btn-mini btn-danger" 
+							ng-show="article.writer.uid == userSession.uid"
 							ng-click="removeArticle(article.id)">Remove</button>
 					
 					</td>
@@ -86,7 +90,27 @@
 			</tbody>
 		</table>
 		
-		<button class="btn btn-mini" 
+		<button class="btn btn-mini" ng-show="userSession.uid != null"
 			ng-click="writeArticle()">글쓰기</button>
+	</div>
+
+	<!-- content -->
+	<div id="articlebox" ng-show="contentMode" style="margin-top: 50px"
+		class="mainbox">
+		<div class="panel panel-info row">
+			<div class="panel-heading">
+				<div class="panel-title">{{article.subject}}</div>
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="col-md-9">
+						<span>{{article.content}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<button class="btn btn-mini btn-success" ng-click="listArticle();">목록</button>
+		</div>
 	</div>
 </div>

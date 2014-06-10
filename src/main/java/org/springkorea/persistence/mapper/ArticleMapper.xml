@@ -17,15 +17,17 @@
 	</resultMap>
 
 	<select id="getArticles" resultMap="ArticleResultMap"
-		parameterType="org.springkorea.persistence.valueobject.PagingOptions">
+		parameterType="java.util.Map">
 		select * from (
 		select ROW_NUMBER() OVER () AS RNUM,
 		ARTICLES.* from ARTICLES
 		) as
 		SK_ARTICLES
 		where 1=1
+		and OWNER = #{ownerId}
 		and RNUM between
 		#{offset} and #{size}
+		order by RNUM desc
 	</select>
 
 	<select id="getCount" resultType="java.lang.Integer">

@@ -1,7 +1,9 @@
 package org.springkorea.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springkorea.model.Article;
 import org.springkorea.model.User;
-import org.springkorea.persistence.valueobject.PagingOptions;
 import org.springkorea.service.ArticleManager;
 import org.springkorea.service.UserManager;
 
@@ -36,9 +37,15 @@ public class ArticleController {
 	public @ResponseBody List<Article> getArticleList(
 			@PathVariable("ownerId") String ownerId) {
 		// TODO
-		PagingOptions options = new PagingOptions();
-		options.setOffset(0);
-		options.setSize(100);
+		/*
+		 * PagingOptions options = new PagingOptions(); User owner =
+		 * userManager.getUser(ownerId); options.setOffset(0);
+		 * options.setSize(100);
+		 */
+		Map<String, Object> options = new HashMap<>();
+		options.put("offset", 0);
+		options.put("size", 100);
+		options.put("ownerId", ownerId);
 
 		return articleManager.getArticles(options);
 	}
