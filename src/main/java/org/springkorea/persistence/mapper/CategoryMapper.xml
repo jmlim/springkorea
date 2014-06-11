@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.springkorea.persistence.mapper.CategoryMapper">
+	<resultMap id="CategoryResultMap" type="Category">
+		<id property="id" column="ID" />
+		<result property="title" column="TITLE" />
+		<result property="leaf" column="LEAF" />
+		<association property="owner" column="OWNER" javaType="User"
+			jdbcType="VARCHAR" select="org.springkorea.persistence.mapper.UserMapper.getUser" />
+		<association property="parent" column="PARENT" javaType="Category"
+			jdbcType="VARCHAR" select="getCategory" />
+	</resultMap>
+
+	<select id="getCategories" resultMap="CategoryResultMap"
+		parameterType="java.util.Map">
+		select * from (
+		select ROW_NUMBER() OVER () AS RNUM,
+		CATEGORIES.* from CATEGORIES
+		where OWNER = #{ownerId}
+		) as
+		SK_CATEGORIES
+		where 1=1
+		and RNUM between
+		#{offset} and #{size}
+		order by RNUM desc
+	</select>
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from CATEGORIES
+	</select>
+	<select id="getCategory" parameterType="Category" resultMap="CategoryResultMap">
+		select * from CATEGORIES
+		where ID = #{id}
+	</select>
+	<select id="getFirstCategory" parameterType="java.util.Map" resultMap="CategoryResultMap">
+		select * from (
+		select ROW_NUMBER() OVER () AS RNUM,
+		CATEGORIES.* from CATEGORIES
+		where OWNER = #{ownerId}
+		) as SK_CATEGORIES
+		where 1=1
+		and RNUM =1
+	</select>
+	<insert id="createCategory" parameterType="Category">
+		INSERT INTO
+		CATEGORIES(ID,OWNER,TITLE,PARENT,LEAF)
+		values(NEXT VALUE FOR CATEGORY_SEQ,#{owner.uid},#{title},
+		<choose>
+			<when test="parent.id != null">#{parent.id}</when>
+			<otherwise>null</otherwise>
+		</choose>
+		,#{leaf})
+	</insert>
+	<update id="updateCategory" parameterType="Category">
+		update CATEGORIES set
+		TITLE =
+		#{title},
+		PARENT = #{parent.id}
+		where ID = #{id}
+	</update>
+	<delete id="deleteCategory" parameterType="java.lang.Integer">
+		delete from CATEGORIES
+		where ID = #{id}
+	</delete>
+</mapper>

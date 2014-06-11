@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springkorea.model.Category;
 import org.springkorea.model.User;
+import org.springkorea.service.CategoryManager;
 import org.springkorea.service.UserManager;
 
 /**
@@ -24,6 +26,9 @@ public class SignupController {
 
 	@Autowired
 	private UserManager userManager;
+
+	@Autowired
+	private CategoryManager categoryManager;
 
 	@RequestMapping("/userlist.json")
 	public @ResponseBody List<User> getUserList() {
@@ -40,34 +45,17 @@ public class SignupController {
 		return null;
 	}
 
-	@RequestMapping(value = "/getAccessBlogUser")
-	public @ResponseBody User getAccessBlogUser(HttpSession session) {
-		User accessBlogUser = (User) session.getAttribute("accessBlogUser");
-		if (accessBlogUser != null) {
-			return accessBlogUser;
-		}
-
-		return null;
-	}
-
-	@RequestMapping(value = "/setAccessBlogUser", method = RequestMethod.POST)
-	public @ResponseBody User setAccessBlogUser(@RequestBody User user,
-			HttpSession session) {
-		if (user != null) {
-			session.setAttribute("accessBlogUser", user);
-			return user;
-		}
-		return null;
-	}
-
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	public @ResponseBody void addUser(@RequestBody User user) {
+		// TODO validation 검사 필요.
 		userManager.createUser(user);
 	}
 
 	@RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
 	public @ResponseBody void updateUser(@RequestBody User user,
 			HttpSession session) {
+		// TODO validation 검사 필요.
+
 		userManager.updateUser(user);
 		User currentUser = (User) session.getAttribute("userSession");
 		if (currentUser.getUid().equals(user.getUid())) {

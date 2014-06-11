@@ -16,5 +16,5 @@ public interface ArticleManager {
 
 	public List<Article> getArticles(Map<String, Object> options);
 
-	public Integer getCount();
+	public Integer getCount(Map<String, Object> options);
 }

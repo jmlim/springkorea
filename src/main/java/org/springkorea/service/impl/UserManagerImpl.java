@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springkorea.model.Category;
 import org.springkorea.model.User;
 import org.springkorea.persistence.mapper.UserMapper;
+import org.springkorea.service.CategoryManager;
 import org.springkorea.service.UserManager;
 
 @Transactional
@@ -15,6 +17,9 @@ public class UserManagerImpl implements UserManager {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private CategoryManager categoryManager;
 
 	/**
 	 * @see org.springkorea.service.UserManager#getUser(java.lang.String)
@@ -30,7 +35,17 @@ public class UserManagerImpl implements UserManager {
 	@Override
 	public User createUser(User user) {
 		userMapper.createUser(user);
-		return userMapper.getUser(user);
+		user = userMapper.getUser(user);
+
+		// 해당 유저의 게시판 카테고리 생성.
+		Category newCategory = new Category();
+		newCategory.setOwner(user);
+		newCategory.setParent(new Category());
+		newCategory.setTitle("게시판");
+		newCategory.setLeaf(false);
+		categoryManager.createCategory(newCategory);
+
+		return user;
 	}
 
 	/**

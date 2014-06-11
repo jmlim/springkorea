@@ -38,3 +38,5 @@
 	src="<c:url value="/resources/scripts/controllers/UserController.js" />"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/scripts/controllers/ArticleController.js" />"></script>
+	<script type="text/javascript"
+	src="<c:url value="/resources/scripts/controllers/CategoryController.js" />"></script>

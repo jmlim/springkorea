@@ -27,29 +27,47 @@ App.config([ '$routeProvider', function($routeProvider) {
 		controller : ArticleController
 	});
 
+	$routeProvider.when('/articles/:ownerId', {
+		templateUrl : 'article/list',
+		controller : ArticleController
+	});
+
+	$routeProvider.when('/articles/:ownerId/:categoryId', {
+		templateUrl : 'article/list',
+		controller : ArticleController
+	});
+
+	$routeProvider.when('/index/:ownerId', {
+		templateUrl : 'main/main',
+		controller: 'MainController'
+	});
+
 	$routeProvider.when('/index', {
-		templateUrl : 'main/main'
+		templateUrl : 'main/main',
+		controller: 'MainController'
 	});
 
 	$routeProvider.otherwise({
 		redirectTo : 'index'
 	});
-} ]).controller('mainController',
-		function($scope, $rootScope, $http, $location) {
+} ]).controller('MainController',
+		function($scope, $rootScope, $http, $location, $routeParams) {
 			// 루트에 항상 세션정보가 담겨 있음.
 			$rootScope.userSession = {};
 
-			// 접근한 블로그의 정보.
-			$rootScope.accessBlogUser = {};
-			
-			$rootScope.targetId = null;
 			/**
 			 * 현재 로그인이 되어 있는 유저를 호출.
 			 */
 			$rootScope.currentUser = function() {
 				$http.get('signup/currentUser').success(function(currentUser) {
 					$rootScope.userSession = currentUser;
-					$rootScope.accessBlog(currentUser, true);
+					var ownerId = $routeParams.ownerId;
+					if(ownerId) {
+						$rootScope.currentOwnerId = ownerId;
+					} else {
+						ownerId = $rootScope.userSession.uid;
+						$rootScope.currentOwnerId = ownerId;
+					}
 				});
 			};
 
@@ -59,57 +77,13 @@ App.config([ '$routeProvider', function($routeProvider) {
 			$rootScope.processLogout = function(user) {
 				$http.get('signin/processLogout/').success(function() {
 					$rootScope.userSession = {};
+					$rootScope.currentOwnerId = null;
 					$location.path("index");
 				}).error(function(data, status, headers, config) {
 
 				});
 			};
 
-			/**
-			 * 접근할 블로그 설정.
-			 * */
-			$rootScope.accessBlog = function(user, refresh) {
-				if(refresh) {
-					 $http.get('signup/getAccessBlogUser').success(function(accessBlogUser) {
-						$rootScope.accessBlogUser = accessBlogUser;
-
-						if ($rootScope.accessBlogUser) {
-							$rootScope.targetId = $rootScope.accessBlogUser.uid;
-						}
-
-						if (!$rootScope.targetId) {
-							$rootScope.targetId = $rootScope.userSession.uid;
-						}
-
-						$location.path("index");
-					 });
-				} else {
-					 $http.post('signup/setAccessBlogUser', user).success(function(accessBlogUser) {
-						$rootScope.accessBlogUser = accessBlogUser;
-
-						if ($rootScope.accessBlogUser) {
-							$rootScope.targetId = $rootScope.accessBlogUser.uid;
-						}
-
-						if (!$rootScope.targetId) {
-							$rootScope.targetId = $rootScope.userSession.uid;
-						}
-
-						$location.path("index");
-					});
-				}
-				/*$rootScope.accessBlogUser = user;
-
-				if($rootScope.accessBlogUser) {
-					$rootScope.targetId = $rootScope.accessBlogUser.uid;
-				}
-
-				if(!$rootScope.targetId) {
-					$rootScope.targetId = $rootScope.userSession.uid;
-				}
-				
-				$location.path("index");*/
-			};
-
 			$rootScope.currentUser();
+			
 });

@@ -13,6 +13,8 @@ public class Article implements Serializable {
 
 	private User writer;
 
+	private Category category;
+
 	private String subject;
 
 	private String content;
@@ -43,6 +45,14 @@ public class Article implements Serializable {
 
 	public void setWriter(User writer) {
 		this.writer = writer;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public String getSubject() {

@@ -10,7 +10,8 @@ var SigninController = function($rootScope, $scope, $http, $location) {
 
 	$scope.processSignin = function(user) {
 		$http.post('signin/processSignin/', user).success(function(data) {
-			$location.path("index");
+			$location.path("index/" + user.uid);
+			$rootScope.currentOwnerId = user.uid;
 			$rootScope.currentUser();
 		}).error(function(data, status, headers, config) {
 

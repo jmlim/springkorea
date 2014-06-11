@@ -5,15 +5,18 @@
 <nav class="navbar navbar-inverse" role="navigation">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">{{targetId}} 의 블로그입니다.</a>
+		<div class="navbar-header" ng-show="{{currentOwnerId != null}}">
+			<a class="navbar-brand" href="#/index/{{currentOwnerId}}">{{currentOwnerId}} 의 블로그입니다.</a>
+		</div>
+		<div class="navbar-header" ng-show="{{currentOwnerId == null}}">
+			<a class="navbar-brand" href="#/index">로그인 해주세요.</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="#/articles">게시판</a></li>
+				<li class="active"><a href="#/articles/{{currentOwnerId}}">게시판</a></li>
 				<!--
 				<li><a href="#">Link</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"

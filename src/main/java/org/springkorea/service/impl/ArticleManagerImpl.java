@@ -61,8 +61,8 @@ public class ArticleManagerImpl implements ArticleManager {
 	 * @see org.springkorea.service.ArticleManager#getCount()
 	 */
 	@Override
-	public Integer getCount() {
-		return articleMapper.getCount();
+	public Integer getCount(Map<String, Object> options) {
+		return articleMapper.getCount(options);
 	}
 
 }

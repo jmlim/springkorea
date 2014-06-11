@@ -19,7 +19,7 @@
 				<td>{{user.name}}</td>
 				<td>{{user.email}}</td>
 				<td style="text-align: center; width: 20px;">
-					<button class="btn btn-mini btn-success" ng-click="accessBlog(user)">블로그 가기</button>
+					<a class="btn btn-mini btn-success" href="#/index/{{user.uid}}">블로그 가기</button>
 				</td>
 			</tr>
 		</tbody>

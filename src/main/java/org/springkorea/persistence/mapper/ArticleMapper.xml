@@ -14,6 +14,8 @@
 			jdbcType="VARCHAR" select="org.springkorea.persistence.mapper.UserMapper.getUser" />
 		<association property="writer" column="WRITER" javaType="User"
 			jdbcType="VARCHAR" select="org.springkorea.persistence.mapper.UserMapper.getUser" />
+		<association property="category" column="CATEGORY" javaType="Category"
+			jdbcType="INTEGER" select="org.springkorea.persistence.mapper.CategoryMapper.getCategory"/>
 	</resultMap>
 
 	<select id="getArticles" resultMap="ArticleResultMap"
@@ -21,35 +23,43 @@
 		select * from (
 		select ROW_NUMBER() OVER () AS RNUM,
 		ARTICLES.* from ARTICLES
+		where OWNER = #{ownerId}
+		<if test="categoryId != null">
+			and CATEGORY = #{categoryId}
+		</if>
 		) as
 		SK_ARTICLES
 		where 1=1
-		and OWNER = #{ownerId}
 		and RNUM between
 		#{offset} and #{size}
 		order by RNUM desc
 	</select>
 
-	<select id="getCount" resultType="java.lang.Integer">
-		select count(*) from ARTICLES
+	<select id="getCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select
+		count(*) from ARTICLES
+		where OWNER = #{uid}
 	</select>
 
-	<select id="getArticle" parameterType="Article"
-		resultMap="ArticleResultMap">
+	<select id="getArticle" parameterType="Article" resultMap="ArticleResultMap">
 		select * from ARTICLES
 		where ID = #{id}
 	</select>
 
 	<insert id="createArticle" parameterType="Article">
 		INSERT INTO
-		ARTICLES(ID,OWNER,WRITER,SUBJECT,CONTENT,CREATE_DATE,UPDATE_DATE)
-		values(NEXT VALUE FOR ARTICLE_SEQ,#{owner.uid},#{writer.uid},#{subject},#{content},#{createDate},#{updateDate})
+		ARTICLES(ID,OWNER,WRITER,SUBJECT,CONTENT,CATEGORY,CREATE_DATE,UPDATE_DATE)
+		values(NEXT VALUE FOR
+		ARTICLE_SEQ,#{owner.uid},#{writer.uid},#{subject},#{content},#{category.id},#{createDate},#{updateDate})
 	</insert>
 	<update id="updateArticle" parameterType="Article">
 		update ARTICLES set
 		SUBJECT =
 		#{subject},
 		CONTENT = #{content}
+		<if test="{category} != null">
+			,CATEGORY = #{category.id}
+		</if>
 		where ID = #{id}
 	</update>
 

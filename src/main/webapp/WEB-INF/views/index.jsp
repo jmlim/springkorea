@@ -5,7 +5,7 @@
 <head>
 <jsp:include page="fragments/headTag.jsp" />
 </head>
-<body ng-controller="mainController">
+<body ng-controller="MainController">
 	<%-- <jsp:include page="fragments/bodyHeader.jsp" /> --%>
 	<%-- <div class="index">
 		<c:choose>
