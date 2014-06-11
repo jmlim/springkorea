@@ -10,7 +10,7 @@ var SigninController = function($rootScope, $scope, $http, $location) {
 
 	$scope.processSignin = function(user) {
 		$http.post('signin/processSignin/', user).success(function(data) {
-			$location.path("articles");
+			$location.path("index");
 			$rootScope.currentUser();
 		}).error(function(data, status, headers, config) {
 

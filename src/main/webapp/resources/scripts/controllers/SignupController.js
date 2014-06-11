@@ -34,7 +34,7 @@ var SignupController = function($rootScope, $scope, $http, $location) {
     	 $http.put('signup/updateUser/',user).success(function() {
              // $scope.fetchUserList();
     		 $scope.currentUser();
-    		 $location.path("articles");
+    		 $location.path("index");
          });
     };
     

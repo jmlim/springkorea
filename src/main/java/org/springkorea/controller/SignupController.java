@@ -40,6 +40,26 @@ public class SignupController {
 		return null;
 	}
 
+	@RequestMapping(value = "/getAccessBlogUser")
+	public @ResponseBody User getAccessBlogUser(HttpSession session) {
+		User accessBlogUser = (User) session.getAttribute("accessBlogUser");
+		if (accessBlogUser != null) {
+			return accessBlogUser;
+		}
+
+		return null;
+	}
+
+	@RequestMapping(value = "/setAccessBlogUser", method = RequestMethod.POST)
+	public @ResponseBody User setAccessBlogUser(@RequestBody User user,
+			HttpSession session) {
+		if (user != null) {
+			session.setAttribute("accessBlogUser", user);
+			return user;
+		}
+		return null;
+	}
+
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	public @ResponseBody void addUser(@RequestBody User user) {
 		userManager.createUser(user);

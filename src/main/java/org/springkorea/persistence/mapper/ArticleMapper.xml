@@ -41,13 +41,9 @@
 	</select>
 
 	<insert id="createArticle" parameterType="Article">
-		<selectKey keyProperty="id" resultType="int" order="BEFORE">
-			select
-			count(*) + 1 from ARTICLES
-		</selectKey>
 		INSERT INTO
 		ARTICLES(ID,OWNER,WRITER,SUBJECT,CONTENT,CREATE_DATE,UPDATE_DATE)
-		values(#{id},#{owner.uid},#{writer.uid},#{subject},#{content},#{createDate},#{updateDate})
+		values(NEXT VALUE FOR ARTICLE_SEQ,#{owner.uid},#{writer.uid},#{subject},#{content},#{createDate},#{updateDate})
 	</insert>
 	<update id="updateArticle" parameterType="Article">
 		update ARTICLES set

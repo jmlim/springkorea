@@ -7,7 +7,6 @@ var App = angular.module('SpringKoreaApp', [ 'ngRoute',
 
 // Declare app level module which depends on filters, and services
 App.config([ '$routeProvider', function($routeProvider) {
-
 	$routeProvider.when('/signup', {
 		templateUrl : 'signup/signup',
 		controller : SignupController
@@ -28,8 +27,12 @@ App.config([ '$routeProvider', function($routeProvider) {
 		controller : ArticleController
 	});
 
+	$routeProvider.when('/index', {
+		templateUrl : 'main/main'
+	});
+
 	$routeProvider.otherwise({
-		redirectTo : 'articles'
+		redirectTo : 'index'
 	});
 } ]).controller('mainController',
 		function($scope, $rootScope, $http, $location) {
@@ -40,14 +43,13 @@ App.config([ '$routeProvider', function($routeProvider) {
 			$rootScope.accessBlogUser = {};
 			
 			$rootScope.targetId = null;
-
 			/**
 			 * 현재 로그인이 되어 있는 유저를 호출.
 			 */
 			$rootScope.currentUser = function() {
 				$http.get('signup/currentUser').success(function(currentUser) {
 					$rootScope.userSession = currentUser;
-					$rootScope.accessBlog();
+					$rootScope.accessBlog(currentUser, true);
 				});
 			};
 
@@ -56,9 +58,8 @@ App.config([ '$routeProvider', function($routeProvider) {
 			 */
 			$rootScope.processLogout = function(user) {
 				$http.get('signin/processLogout/').success(function() {
-					$location.path("articles");
 					$rootScope.userSession = {};
-					$location.path("signin");
+					$location.path("index");
 				}).error(function(data, status, headers, config) {
 
 				});
@@ -67,9 +68,37 @@ App.config([ '$routeProvider', function($routeProvider) {
 			/**
 			 * 접근할 블로그 설정.
 			 * */
-			$rootScope.accessBlog = function(user) {
-				$rootScope.accessBlogUser = user;
-				$location.path("articles");
+			$rootScope.accessBlog = function(user, refresh) {
+				if(refresh) {
+					 $http.get('signup/getAccessBlogUser').success(function(accessBlogUser) {
+						$rootScope.accessBlogUser = accessBlogUser;
+
+						if ($rootScope.accessBlogUser) {
+							$rootScope.targetId = $rootScope.accessBlogUser.uid;
+						}
+
+						if (!$rootScope.targetId) {
+							$rootScope.targetId = $rootScope.userSession.uid;
+						}
+
+						$location.path("index");
+					 });
+				} else {
+					 $http.post('signup/setAccessBlogUser', user).success(function(accessBlogUser) {
+						$rootScope.accessBlogUser = accessBlogUser;
+
+						if ($rootScope.accessBlogUser) {
+							$rootScope.targetId = $rootScope.accessBlogUser.uid;
+						}
+
+						if (!$rootScope.targetId) {
+							$rootScope.targetId = $rootScope.userSession.uid;
+						}
+
+						$location.path("index");
+					});
+				}
+				/*$rootScope.accessBlogUser = user;
 
 				if($rootScope.accessBlogUser) {
 					$rootScope.targetId = $rootScope.accessBlogUser.uid;
@@ -78,6 +107,8 @@ App.config([ '$routeProvider', function($routeProvider) {
 				if(!$rootScope.targetId) {
 					$rootScope.targetId = $rootScope.userSession.uid;
 				}
+				
+				$location.path("index");*/
 			};
 
 			$rootScope.currentUser();
