@@ -5,7 +5,7 @@
  * 
  * @constructor
  */
-var CategoryController = function($rootScope, $scope, $http, $routeParams) {
+var CategoryController = function($rootScope, $scope, $http, $routeParams, $route) {
 	$scope.category = {};
 	$scope.editMode = false;
 	$scope.writeMode = false;
@@ -45,6 +45,7 @@ var CategoryController = function($rootScope, $scope, $http, $routeParams) {
     $scope.removeCategory = function(id) {
         $http.delete('category/'+ownerId+'/removeCategory/'+id).success(function() {
             $scope.fetchCategoryList();
+            $route.reload();
         });
     };
 

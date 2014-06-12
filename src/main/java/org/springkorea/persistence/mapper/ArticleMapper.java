@@ -6,13 +6,15 @@ import java.util.Map;
 import org.springkorea.model.Article;
 
 public interface ArticleMapper {
-	public Article getArticle(Article article);
+	public Article getArticle(Integer id);
 
 	public void createArticle(Article article);
 
 	public void updateArticle(Article article);
 
 	public void deleteArticle(Integer id);
+
+	public void deleteArticlesByCategoryId(Integer categoryId);
 
 	public List<Article> getArticles(Map<String, Object> options);
 

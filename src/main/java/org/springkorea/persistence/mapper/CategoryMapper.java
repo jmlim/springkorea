@@ -9,7 +9,7 @@ public interface CategoryMapper {
 
 	public Category getFirstCategory(Map<String, Object> options);
 
-	public Category getCategory(Category category);
+	public Category getCategory(Integer id);
 
 	public void createCategory(Category category);
 

@@ -18,11 +18,11 @@ public class ArticleManagerImpl implements ArticleManager {
 	private ArticleMapper articleMapper;
 
 	/**
-	 * @see org.springkorea.service.ArticleManager#getArticle(org.springkorea.model.Article)
+	 * @see org.springkorea.service.ArticleManager#getArticle(java.lang.Integer)
 	 */
 	@Override
-	public Article getArticle(Article article) {
-		return articleMapper.getArticle(article);
+	public Article getArticle(Integer id) {
+		return articleMapper.getArticle(id);
 	}
 
 	/**
@@ -50,6 +50,14 @@ public class ArticleManagerImpl implements ArticleManager {
 	}
 
 	/**
+	 * @see org.springkorea.service.ArticleManager#deleteArticlesByCategoryId(java.lang.Integer)
+	 */
+	@Override
+	public void deleteArticlesByCategoryId(Integer categoryId) {
+		articleMapper.deleteArticlesByCategoryId(categoryId);
+	}
+
+	/**
 	 * @see org.springkorea.service.ArticleManager#getArticles(java.util.Map)
 	 */
 	@Override
@@ -64,5 +72,4 @@ public class ArticleManagerImpl implements ArticleManager {
 	public Integer getCount(Map<String, Object> options) {
 		return articleMapper.getCount(options);
 	}
-
 }

@@ -30,7 +30,7 @@
 	<select id="getCount" resultType="java.lang.Integer">
 		select count(*) from CATEGORIES
 	</select>
-	<select id="getCategory" parameterType="Category" resultMap="CategoryResultMap">
+	<select id="getCategory" parameterType="java.lang.Integer" resultMap="CategoryResultMap">
 		select * from CATEGORIES
 		where ID = #{id}
 	</select>

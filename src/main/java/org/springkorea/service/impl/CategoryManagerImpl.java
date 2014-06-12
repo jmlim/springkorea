@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springkorea.model.Category;
 import org.springkorea.persistence.mapper.CategoryMapper;
+import org.springkorea.service.ArticleManager;
 import org.springkorea.service.CategoryManager;
 
 @Transactional
@@ -16,6 +17,9 @@ public class CategoryManagerImpl implements CategoryManager {
 
 	@Autowired
 	private CategoryMapper categoryMapper;
+
+	@Autowired
+	private ArticleManager ArticleManager;
 
 	/**
 	 * @see org.springkorea.service.CategoryManager#getFirstCategory(java.util.Map)
@@ -26,11 +30,11 @@ public class CategoryManagerImpl implements CategoryManager {
 	}
 
 	/**
-	 * @see org.springkorea.service.CategoryManager#getCategory(org.springkorea.model.Category)
+	 * @see org.springkorea.service.CategoryManager#getCategory(java.lang.Integer)
 	 */
 	@Override
-	public Category getCategory(Category category) {
-		return categoryMapper.getCategory(category);
+	public Category getCategory(Integer id) {
+		return categoryMapper.getCategory(id);
 	}
 
 	/**
@@ -54,6 +58,7 @@ public class CategoryManagerImpl implements CategoryManager {
 	 */
 	@Override
 	public void deleteCategory(Integer id) {
+		ArticleManager.deleteArticlesByCategoryId(id);
 		categoryMapper.deleteCategory(id);
 	}
 

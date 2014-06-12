@@ -14,15 +14,17 @@
 			jdbcType="VARCHAR" select="org.springkorea.persistence.mapper.UserMapper.getUser" />
 		<association property="writer" column="WRITER" javaType="User"
 			jdbcType="VARCHAR" select="org.springkorea.persistence.mapper.UserMapper.getUser" />
-		<association property="category" column="CATEGORY" javaType="Category"
-			jdbcType="INTEGER" select="org.springkorea.persistence.mapper.CategoryMapper.getCategory"/>
+		<association property="category" column="CATEGORY"
+			javaType="Category" jdbcType="INTEGER"
+			select="org.springkorea.persistence.mapper.CategoryMapper.getCategory" />
 	</resultMap>
 
 	<select id="getArticles" resultMap="ArticleResultMap"
 		parameterType="java.util.Map">
 		select * from (
 		select ROW_NUMBER() OVER () AS RNUM,
-		ARTICLES.* from ARTICLES
+		ARTICLES.* from
+		ARTICLES
 		where OWNER = #{ownerId}
 		<if test="categoryId != null">
 			and CATEGORY = #{categoryId}
@@ -32,7 +34,8 @@
 		where 1=1
 		and RNUM between
 		#{offset} and #{size}
-		order by RNUM desc
+		order by
+		RNUM desc
 	</select>
 
 	<select id="getCount" parameterType="java.util.Map" resultType="java.lang.Integer">
@@ -41,7 +44,7 @@
 		where OWNER = #{uid}
 	</select>
 
-	<select id="getArticle" parameterType="Article" resultMap="ArticleResultMap">
+	<select id="getArticle" parameterType="java.lang.Integer" resultMap="ArticleResultMap">
 		select * from ARTICLES
 		where ID = #{id}
 	</select>
@@ -66,5 +69,11 @@
 	<delete id="deleteArticle" parameterType="java.lang.Integer">
 		delete from ARTICLES
 		where ID = #{id}
+	</delete>
+
+	<delete id="deleteArticlesByCategoryId" parameterType="java.lang.Integer">
+		delete
+		from ARTICLES
+		where CATEGORY = #{categoryId}
 	</delete>
 </mapper>

@@ -57,8 +57,9 @@ public class ArticleController {
 		options.put("size", 100);
 		options.put("ownerId", ownerId);
 
-		if (cId == null) {
-			Category category = categoryManager.getFirstCategory(options);
+		Category category = categoryManager.getCategory(cId);
+		if (category == null) {
+			category = categoryManager.getFirstCategory(options);
 			cId = category.getId();
 		}
 
@@ -82,10 +83,7 @@ public class ArticleController {
 		Integer cId = convertCategoryId(categoryId);
 		Category category = null;
 		if (cId != null) {
-			category = new Category();
-			category.setId(cId);
-
-			category = categoryManager.getCategory(category);
+			category = categoryManager.getCategory(cId);
 		}
 
 		if (category == null) {
