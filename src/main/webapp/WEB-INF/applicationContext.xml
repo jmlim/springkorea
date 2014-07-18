@@ -35,6 +35,7 @@
 	<!-- enable component scanning (beware that this does not enable mapper 
 		scanning!) -->
 	<context:component-scan base-package="org.springkorea.service" />
+	<context:component-scan base-package="org.springkorea.exception.advice" />
 
 	<!-- enable autowire -->
 	<context:annotation-config />

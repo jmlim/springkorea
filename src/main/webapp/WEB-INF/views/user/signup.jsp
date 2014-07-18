@@ -10,6 +10,9 @@
 				<div class="panel-title">Sign Up</div>
 			</div>
 			<div class="panel-body">
+				<div class="errors" ng-repeat="validationMessage in validationMessages" >
+					<div class="error">{{validationMessage}}</div>
+				</div>
 				<form id="form-signup" action="${targetUrl}" method="post" class="form-horizontal" role="form">
 					<div class="form-group">
 						<label for="uid" class="col-md-3 control-label">User Id</label>

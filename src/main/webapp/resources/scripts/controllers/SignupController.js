@@ -8,6 +8,7 @@
 var SignupController = function($rootScope, $scope, $http, $location) {
 	$scope.user = {};
 	$scope.editMode = false;
+	$scope.validationMessages = null;
 
     $scope.fetchUserList = function() {
         $http.get('signup/userlist.json').success(function(userList){
@@ -27,7 +28,10 @@ var SignupController = function($rootScope, $scope, $http, $location) {
             // $scope.fetchUserList();
         	 $scope.currentUser();
         	 $location.path("signin");
-        });
+        }).error(function(data, status, headers, config) {
+        	$scope.validationMessages = data;
+        	console.log(data);
+          });
     };
 
     $scope.updateUser = function(user) {

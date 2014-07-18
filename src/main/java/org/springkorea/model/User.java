@@ -15,19 +15,19 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 6582137205440661975L;
 
-	@NotBlank
-	@Size(max = 15)
+	@NotBlank(message = "아이디는 필수값입니다.")
+	@Size(min = 5, max = 15, message = "아이디는 최소 5, 최대 15까지만 입력 가능합니다.")
 	private String uid;
 
-	@NotBlank
-	@Size(max = 50)
+	@NotBlank(message = "이름은 필수값입니다.")
+	@Size(max = 50, message = "이름은 최대 50자까지 입력 가능합니다.")
 	private String name;
 
-	@Email
+	@Email(message = "올바른 이메일 주소를 입력하세요.")
 	private String email;
 
-	@NotBlank
-	@Size(max = 15)
+	@NotBlank(message = "패스워드는 필수값입니다.")
+	@Size(min = 7, max = 15, message = "패스워드는 최소 7, 최대 15까지만 입력 가능합니다.")
 	private String password;
 
 	public User() {

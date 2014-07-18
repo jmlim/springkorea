@@ -119,6 +119,10 @@ public class ArticleController {
 		return "article/list";
 	}
 
+	/**
+	 * @param categoryId
+	 * @return
+	 */
 	private Integer convertCategoryId(String categoryId) {
 		if (categoryId.equals("null") || categoryId.equals("undefined")) {
 			categoryId = null;
