@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<jsp:include page="../fragments/bodyHeader.jsp" />
+<div ng-include src="'fragments/bodyHeader'"></div>
 <div class="container">
 	<table class="table table-bordered table-striped"
 		ng-show="users.length > 0">

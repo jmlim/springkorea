@@ -1,7 +1,7 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<jsp:include page="../fragments/bodyHeader.jsp" />
+<div ng-include src="'fragments/bodyHeader'"></div>
  <div class="container">    
 	<div id="signupbox" style="margin-top: 50px"
 		class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
@@ -13,7 +13,7 @@
 				<div class="errors" ng-repeat="validationMessage in validationMessages" >
 					<div class="error">{{validationMessage}}</div>
 				</div>
-				<form id="form-signup" action="${targetUrl}" method="post" class="form-horizontal" role="form">
+				<form id="form-signup" method="post" class="form-horizontal" role="form">
 					<div class="form-group">
 						<label for="uid" class="col-md-3 control-label">User Id</label>
 						<div class="col-md-9">

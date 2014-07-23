@@ -72,5 +72,3 @@ var CategoryController = function($rootScope, $scope, $http, $routeParams, $rout
 
     $scope.fetchCategoryList();
 };
-
-App.controller('CategoryController', CategoryController);

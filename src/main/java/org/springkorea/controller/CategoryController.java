@@ -71,8 +71,8 @@ public class CategoryController {
 		categoryManager.deleteCategory(id);
 	}
 
-	@RequestMapping("/list")
+	@RequestMapping("/category")
 	public String getCategoryPartialPage() {
-		return "category/list";
+		return "article/category";
 	}
 }

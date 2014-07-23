@@ -23,35 +23,36 @@ App.config([ '$routeProvider', function($routeProvider) {
 	});
 
 	$routeProvider.when('/articles', {
-		templateUrl : 'article/list',
+		templateUrl : 'article/article',
 		controller : ArticleController
 	});
 
 	$routeProvider.when('/articles/:ownerId', {
-		templateUrl : 'article/list',
+		templateUrl : 'article/article',
 		controller : ArticleController
 	});
 
 	$routeProvider.when('/articles/:ownerId/:categoryId', {
-		templateUrl : 'article/list',
+		templateUrl : 'article/article',
 		controller : ArticleController
 	});
 
 	$routeProvider.when('/index/:ownerId', {
 		templateUrl : 'main/main',
-		controller: 'MainController'
+		controller: MainController
 	});
 
 	$routeProvider.when('/index', {
 		templateUrl : 'main/main',
-		controller: 'MainController'
+		controller: MainController
 	});
 
 	$routeProvider.otherwise({
 		redirectTo : 'index'
 	});
-} ]).controller('MainController',
-		function($scope, $rootScope, $http, $location, $routeParams) {
+} ]);
+
+var MainController = function($scope, $rootScope, $http, $location, $routeParams) {
 			// 루트에 항상 세션정보가 담겨 있음.
 			$rootScope.userSession = {};
 
@@ -85,5 +86,4 @@ App.config([ '$routeProvider', function($routeProvider) {
 			};
 
 			$rootScope.currentUser();
-			
-});
+};

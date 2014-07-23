@@ -118,9 +118,9 @@ public class ArticleController {
 		articleManager.deleteArticle(id);
 	}
 
-	@RequestMapping("/list")
+	@RequestMapping("/article")
 	public String getArticlePartialPage() {
-		return "article/list";
+		return "article/article";
 	}
 
 	/**
