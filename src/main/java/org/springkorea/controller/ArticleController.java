@@ -57,7 +57,11 @@ public class ArticleController {
 		options.put("size", 100);
 		options.put("ownerId", ownerId);
 
-		Category category = categoryManager.getCategory(cId);
+		Category category = null;
+		if (cId != null) {
+			category = categoryManager.getCategory(cId);
+		}
+
 		if (category == null) {
 			category = categoryManager.getFirstCategory(options);
 			cId = category.getId();
@@ -77,7 +81,7 @@ public class ArticleController {
 		User owner = userManager.getUser(ownerId);
 		User writer = (User) session.getAttribute("userSession");
 		if (writer == null) {
-			throw new UserNotAuthorityException();
+			throw new UserNotAuthorityException("현재 세션이 존재하지 않므로 글을 쓸 수 없습니다.");
 		}
 
 		Integer cId = convertCategoryId(categoryId);

@@ -50,17 +50,22 @@ public class SignupController {
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	public @ResponseBody void addUser(@RequestBody @Valid User user,
 			BindingResult result) throws UserValidationException {
-		// TODO validation 검사 필요.
-		if(result.hasErrors()) {
+		// validation 검사
+		if (result.hasErrors()) {
 			throw new UserValidationException(result.getFieldErrors());
 		}
 		userManager.createUser(user);
 	}
 
 	@RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
-	public @ResponseBody void updateUser(@RequestBody User user,
-			HttpSession session) {
-		// TODO validation 검사 필요.
+	public @ResponseBody void updateUser(@RequestBody @Valid User user,
+			BindingResult result, HttpSession session)
+			throws UserValidationException {
+
+		// validation 검사
+		if (result.hasErrors()) {
+			throw new UserValidationException(result.getFieldErrors());
+		}
 
 		userManager.updateUser(user);
 		User currentUser = (User) session.getAttribute("userSession");
