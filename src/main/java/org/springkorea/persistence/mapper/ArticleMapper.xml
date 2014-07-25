@@ -19,29 +19,33 @@
 			select="org.springkorea.persistence.mapper.CategoryMapper.getCategory" />
 	</resultMap>
 
+	<!-- derby 에서 OVER 절에 ORDER BY 문 사용하지 못하므로 아래와 같이 처리. -->
 	<select id="getArticles" resultMap="ArticleResultMap"
 		parameterType="java.util.Map">
+
 		select * from (
-		select ROW_NUMBER() OVER () AS RNUM,
-		ARTICLES.* from
-		ARTICLES
-		where OWNER = #{ownerId}
-		<if test="categoryId != null">
-			and CATEGORY = #{categoryId}
-		</if>
-		) as
-		SK_ARTICLES
+			select ROW_NUMBER() OVER () AS RNUM, A.* from (
+				select ROW_NUMBER() OVER () AS DESC_NUM,
+				ARTICLES.* from
+				ARTICLES
+				where OWNER = #{ownerId}
+				<if test="categoryId != null">
+					and CATEGORY = #{categoryId}
+				</if>
+				order by ID desc
+			) as A
+		) as B
 		where 1=1
-		and RNUM between
-		#{offset} and #{size}
-		order by
-		RNUM desc
+		and RNUM between #{start} and #{end}
 	</select>
 
 	<select id="getCount" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select
 		count(*) from ARTICLES
-		where OWNER = #{uid}
+		where OWNER = #{ownerId}
+		<if test="categoryId != null">
+			and CATEGORY = #{categoryId}
+		</if>
 	</select>
 
 	<select id="getArticle" parameterType="java.lang.Integer" resultMap="ArticleResultMap">

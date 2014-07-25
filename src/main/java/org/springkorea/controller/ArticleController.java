@@ -40,10 +40,19 @@ public class ArticleController {
 	@Autowired
 	private CategoryManager categoryManager;
 
-	@RequestMapping("/{ownerId}/{categoryId}/articlelist.json")
+	/**
+	 * 게시판 리스트를 호출
+	 * 
+	 * @param ownerId
+	 * @param categoryId
+	 * @param pageNum
+	 * @return
+	 */
+	@RequestMapping("/{ownerId}/{categoryId}/{pageNum}/articlelist.json")
 	public @ResponseBody List<Article> getArticleList(
 			@PathVariable("ownerId") String ownerId,
-			@PathVariable("categoryId") String categoryId) {
+			@PathVariable("categoryId") String categoryId,
+			@PathVariable("pageNum") Integer pageNum) {
 
 		if (StringUtils.isBlank(ownerId)) {
 			throw new NullPointerException("ownerId");
@@ -53,8 +62,11 @@ public class ArticleController {
 		Integer cId = convertCategoryId(categoryId);
 
 		Map<String, Object> options = new HashMap<>();
-		options.put("offset", 0);
-		options.put("size", 100);
+
+		Integer start = (pageNum * 10) + 1;
+		Integer end = start + 9;
+		options.put("start", start);
+		options.put("end", end);
 		options.put("ownerId", ownerId);
 
 		Category category = null;
@@ -72,6 +84,46 @@ public class ArticleController {
 		return articleManager.getArticles(options);
 	}
 
+	@RequestMapping("/{ownerId}/{categoryId}/pageCount")
+	public @ResponseBody Integer getPageCount(
+			@PathVariable("ownerId") String ownerId,
+			@PathVariable("categoryId") String categoryId) {
+
+		Map<String, Object> options = new HashMap<>();
+
+		options.put("ownerId", ownerId);
+		// TODO
+		Integer cId = convertCategoryId(categoryId);
+		Category category = null;
+		if (cId != null) {
+			category = categoryManager.getCategory(cId);
+		}
+
+		if (category == null) {
+			category = categoryManager.getFirstCategory(options);
+			cId = category.getId();
+		}
+
+		options.put("categoryId", cId);
+
+		Integer articleListCount = articleManager.getCount(options);
+		Integer pageCount = 0;
+		if (articleListCount != null) {
+			pageCount = articleListCount / 10;
+			pageCount += articleListCount % 10 == 0 ? 0 : 1; 
+		}
+		return pageCount;
+	}
+
+	/**
+	 * 게시판 글 쓰기
+	 * 
+	 * @param article
+	 * @param ownerId
+	 * @param categoryId
+	 * @param session
+	 * @throws UserNotAuthorityException
+	 */
 	@RequestMapping(value = "/{ownerId}/{categoryId}/addArticle", method = RequestMethod.POST)
 	public @ResponseBody void addArticle(@RequestBody Article article,
 			@PathVariable("ownerId") String ownerId,

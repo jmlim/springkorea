@@ -6,8 +6,8 @@
 <div ng-include src="'category/category'"></div>
 
 <!-- right -->
-<!-- write -->
 <div id="article-right" class="col-md-10">
+	<!-- write -->
 	<div id="articlebox" ng-show="writeMode">
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -60,6 +60,18 @@
 
 	<!-- list -->
 	<div class="articles-wrapper" ng-hide="writeMode || contentMode">
+		<div class="articles-pagination-wrapper">
+			<!-- paging Number -->
+			<ul class="pagination">
+				<li ng-class="currentPageNum == 0 ? 'disabled' : ''"><a style="cursor: pointer"
+					ng-click="fetchArticleList(currentPageNum - 1);">&laquo;</a></li>
+				<li ng-repeat="i in pageCountList" ng-class="currentPageNum == i ? 'active' : ''">
+					<a 	style="cursor: pointer" ng-click="fetchArticleList(i);">{{i+1}}</a>
+				</li>
+				<li ng-class="currentPageNum == pageCountList.length - 1 ? 'disabled' : ''"><a style="cursor: pointer"
+					ng-click="fetchArticleList(currentPageNum + 1, pageCountList.length);">&raquo;</a></li>
+			</ul>
+		</div>
 		<table class="table table-bordered table-striped"
 			ng-show="articles.length > 0">
 			<thead>
@@ -87,12 +99,11 @@
 						<button class="btn btn-mini btn-danger" 
 							ng-show="article.writer.uid == userSession.uid"
 							ng-click="removeArticle(article.id)">Remove</button>
-					
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		
+
 		<button class="btn btn-mini" ng-show="userSession.uid != null"
 			ng-click="writeArticle()">글쓰기</button>
 	</div>
